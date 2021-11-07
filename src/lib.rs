@@ -34,7 +34,7 @@ pub fn search_path(command: &str, path: Option<&OsStr>, path_ext: Option<&OsStr>
     let path_ext = path_ext.unwrap_or_else(|| OsStr::new(""));
     let mut path_iter = std::env::split_paths(path);
 
-    let mut files = vec![];
+    let mut files: Vec<String> = vec![];
     loop {
         if let Some(dir) = path_iter.next() {
             if !dir.exists() {
@@ -45,7 +45,9 @@ pub fn search_path(command: &str, path: Option<&OsStr>, path_ext: Option<&OsStr>
                     if let Some(s) = entry.file_name().to_str() {
                         if s.starts_with(command) {
                             if let Ok(true) = is_executable(&entry.path(), path_ext) {
-                                files.push(s.to_string());
+                                if !files.contains(&s.to_string()) {
+                                    files.push(s.to_string());
+                                }
                             }
                         }
                     }

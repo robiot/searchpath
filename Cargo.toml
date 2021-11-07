@@ -6,7 +6,7 @@ name = "searchpath"
 description = "A small unix and windows lib to search for executables in PATH folders"
 readme = "README.md"
 repository = "https://github.com/robiot/searchpath"
-version = "0.1.2"
+version = "0.1.3"
 
 [dependencies]
 libc = "0.2"

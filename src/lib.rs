@@ -11,13 +11,6 @@ fn is_executable(path: &Path) -> std::io::Result<bool> {
     Ok(res == 0)
 }
 
-fn is_executable_platform(path: &Path) -> std::io::Result<bool> {
-    #[cfg(unix)]
-    return is_executable(path);
-    #[cfg(windows)]
-    return Ok(true);
-}
-
 pub fn search_path(command: &str, path: Option<&OsStr>) -> Vec<String> {
     let path = path.unwrap_or_else(|| OsStr::new(""));
     let mut path_iter = std::env::split_paths(path);
@@ -32,9 +25,12 @@ pub fn search_path(command: &str, path: Option<&OsStr>) -> Vec<String> {
                 for entry in read_dir.flatten() {
                     if let Some(s) = entry.file_name().to_str() {
                         if s.starts_with(command) {
-                            if let Ok(true) = is_executable_platform(&entry.path()) {
+                            #[cfg(unix)]
+                            if let Ok(true) = is_executable(&entry.path()) {
                                 files.push(s.to_string());
                             }
+                            #[cfg(windows)]
+                            files.push(s.to_string());
                         }
                     }
                 }

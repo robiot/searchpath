@@ -7,8 +7,9 @@ use searchpath::search_path;
 use std::ffi::OsString;
 
 fn main() {
-    let path = std::env::var_os("PATH");
-    let files = search_path("ba", path.as_ref().map(OsString::as_os_str));
+    let path = std::env::var_os("path");
+    let path_ext = std::env::var_os("pathext");
+    let files = search_path("explo", path.as_ref().map(OsString::as_os_str), path_ext.as_ref().map(OsString::as_os_str));
     for file in files {
         println!("{}", file);
     }

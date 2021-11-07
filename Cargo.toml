@@ -1,8 +1,11 @@
 [package]
-name = "searchpath"
-version = "0.1.0"
+authors = ["robiot"]
 edition = "2018"
-
+license = "MIT"
+name = "searchpath"
+readme = "README.md"
+repository = "https://github.com/robiot/searchpath"
+version = "0.1.0"
 
 [dependencies]
 libc = "0.2"
